@@ -194,7 +194,7 @@ final static String yyrule[] = {
 "program : ';'",
 };
 
-//#line 24 "sintac.y"
+//#line 29 "sintac.y"
 /* No es necesario modificar esta sección ------------------ */
 
 public Parser(Yylex lex, GestorErrores gestor, boolean debug) {
