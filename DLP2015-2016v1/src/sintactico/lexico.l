@@ -35,7 +35,7 @@ import ast.Position;
 LETRA=[a-zñA-ZÑ] 
 LITENTERO =[0-9]+
 IDENT={LETRA}+({LETRA}|{LITENTERO})*
-LITREAL =[+-]+ [0-9]+"."[0-9]+
+LITREAL =[+\-]? [0-9]+"."[0-9]+
 CHARACTER= \'.\'
 %%
 
@@ -44,10 +44,9 @@ CHARACTER= \'.\'
 [+\-*/;\()=%\[\[\.] {return yytext().charAt(0); }
 DATA { return Tokens.DATA; }
 CODE { return Tokens.CODE; }
-{LITENTERO} { return Tokens.LITERALINT; }
-{LITREAL} { return Tokens.LITERALREAL; }
+{LITREAL} { return Tokens.LITERALREAL;}
 {CHARACTER}    {return Tokens.CHARACTER;}
-
+{LITENTERO} { return Tokens.LITERALINT;}
 
 /*--OPERADORES DE COMPARACION-- */
 eq    {return Tokens.EQUALS;}
@@ -83,7 +82,7 @@ char			{return Tokens.CHAR; }
 float 		{return Tokens.REAL; }
 struct		{return Tokens.STRUCT;}
 endstruct		{return Tokens.ENDSTRUCT;}
-
+void 				{return Tokens.VOID;}
 {IDENT} { return Tokens.IDENT; }
 /* -- Se aconseja dejar estas reglas al final ----------------------------------------------- */
 

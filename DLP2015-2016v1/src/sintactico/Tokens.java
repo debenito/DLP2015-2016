@@ -14,7 +14,7 @@ public class Tokens {
 	public static final int IDENT = 264;
 	public static final int CHARACTER = 265;
 	
-	public	static final int EQUALS = 265;
+	
 	public static final int LOWERTHAN = 266;
 	public static final int GREATERTHAN = 267;
 	public static final int GREATEREQUALS = 268;
@@ -43,8 +43,8 @@ public class Tokens {
 	public static final int ENDSTRUCT = 300;
 	public static final int PROCEDURES = 301;
 	public static final int LOWEREQUALS = 302;
-	
-	
+	public static final int VOID = 303;
+	public	static final int EQUALS = 304;
 	
 
 }
