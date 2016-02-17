@@ -41,7 +41,7 @@ CHARACTER= \'.\'
 
 /* -- Modificar aquí. Añadir reglas en esta sección ----------------------------------------- */
 
-[+\-*/;\()=%\[\[\.] {return yytext().charAt(0); }
+[+\-*/;\()=%\[\[\,\.] {return yytext().charAt(0); }
 DATA { return Tokens.DATA; }
 CODE { return Tokens.CODE; }
 {LITREAL} { return Tokens.LITERALREAL;}
