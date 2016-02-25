@@ -35,17 +35,17 @@ import ast.Position;
 LETRA=[a-zñA-ZÑ] 
 LITENTERO =[0-9]+
 IDENT={LETRA}+({LETRA}|{LITENTERO})*
-LITREAL =[+\-]? [0-9]+"."[0-9]+
-CHARACTER= \'.\'
+LITREAL =[+\-]? [0-9]+"."[0-9]+ [E]?
+CHAR= \'.\'
 %%
 
 /* -- Modificar aquí. Añadir reglas en esta sección ----------------------------------------- */
 
-[+\-*/;\()=%\[\[\,\.] {return yytext().charAt(0); }
+[+\-*//;\()=%\[\]\,\.] {return yytext().charAt(0); }
 DATA { return Parser.DATA; }
 CODE { return Parser.CODE; }
 {LITREAL} { return Parser.LITERALREAL;}
-{CHARACTER}    {return Parser.CHARACTER;}
+{CHAR}    {return Parser.CHAR;}
 {LITENTERO} { return Parser.LITERALINT;}
 
 /*--OPERADORES DE COMPARACION-- */
@@ -61,17 +61,18 @@ and 	{return Parser.AND;}
 or		{return Parser.OR;}
 not		{return Parser.NOT;}
 /*--Palabras Reservadas del Lenguaje --*/
-types   {return Parser.TYPES;}
-globals  {return Parser.GLOBALS;}
-procedures {return Parser.PROCEDURES;}
+types   		{return Parser.TYPES;}
+globals		  	{return Parser.GLOBALS;}
+procedures		 {return Parser.PROCEDURES;}
 function		{return Parser.FUNCTION;}
-endfunction	{return Parser.ENDFUNCTION;}
-as			{return Parser.AS;}
+endfunction			{return Parser.ENDFUNCTION;}
+as					{return Parser.AS;}
 main			{return Parser.MAIN;}
 endmain		{return Parser.ENDMAIN;}
 while			{return Parser.WHILE;}
 endwhile		{return Parser.ENDWHILE;}
 if			{return Parser.IF;}
+then        {return Parser.THEN;}
 else			{return Parser.ELSE;}
 endif			{return Parser.ENDIF;}
 return		{return Parser.RETURN;}

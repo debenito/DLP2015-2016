@@ -24,6 +24,8 @@ import main.*;
 %token LOWERTHAN 
 %token GREATERTHAN 
 %token GREATEREQUALS 
+%token LOWEREQUALS 
+%token EQUALS 
 %token NOTEQUALS 
 %token AND 
 %token OR 
@@ -39,6 +41,7 @@ import main.*;
 %token WHILE 
 %token ENDWHILE 
 %token IF 
+%token THEN 
 %token ELSE 
 %token ENDIF 
 %token RETURN 
@@ -51,43 +54,168 @@ import main.*;
 %token LOWEREQUALS 
 %token VOID 
 %token EQUALS 
-/* Precedencias aquí --------------------------------------- */
-%left '+' '-'
-%left '*' '/'
+/* Precedencias
 
+/* Precedencias aquí --------------------------------------- */
+%left  OR AND NOT
+%left  LOWERTHAN  GREATERTHAN LOWEREQUALS GREATEREQUALS EQUALS NOTEQUALS 
+%left '+' '-'
+%left '*' '/' '%'
+%left  '['  ']' 
+%left '!'
+%left  '.'
+%left '(' ')'
+%nonassoc IFSINELSE
+%nonassoc ELSE
 %%
 
 /* Añadir las reglas en esta sección ----------------------- */
 
-program: TYPES dectypes 
+program: TYPES dectypes  GLOBALS decvariables PROCEDURES decfunciones MAIN '('')' listaSentencias ENDMAIN
 			; 
 /* Declaracion de type */
+
 dectypes : dectypes decstruct  
 		|decstruct		
 		;
 			
 /*Declaracion de structuras */
- decstruct : STRUCT IDENT decvariables ENDSTRUCT  {}
+
+ decstruct : STRUCT IDENT defvarstructs ENDSTRUCT  {}
  			;
  
- /*Declaracion de variables*/
- decvariables : decvariables defvariables					
-             |defvariables
+ /*Declaracion de variables del Struct*/
+ 
+ defvarstructs : defvarstructs defparamstruct					
+             |defparamstruct 
              ;
              
- /* Definicion de variables*/
- defvariables : tipo IDENT ';' 	            		
- 				| tipo IDENT ',' defvariables 
- 				;             
-tipo: tipoSimple
-   	| tipoComplejo
-        ;
- tipoSimple: INTEGER
- 			|REAL
- 			|CHARACTER
+ /* Parametro struct*/
+ 
+ defparamstruct : defvariables 
+ 				;
+ 				
+ /*Declaracion Variables Globales */				
+ decvariables : decvariables  defvariables 
+ 				| defvariables
+ 				;
+ 				
+ 				
+ defvariables:  tipo identifierList ';'  ;      
+
+
+/*Declaracion de funciones en Procedures */
+
+decfunciones: decfunciones decfuncion
+			| decfuncion 
+			;
+			
+decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION
+			;
+			
+/*Parametros de la funcion*/
+
+parametosfunc : listaparam
+				|
+				;
+				
+listaparam: tipo identifierList  
+			;
+/*Declaracion multiple de variables  */
+
+identifierList:  tipoArray IDENT
+				| IDENT       
+                | identifierList ',' IDENT    
+                | identifierList ',' tipoArray IDENT
+                  ;
+/*Tipo array */ 
+			
+ tipoArray: tipoArray '[' LITERALINT ']' 
+ 			| '[' LITERALINT ']'
  			;
- tipoComplejo : 	
- 			;			       	
+ 			
+/* Tipos simples */
+ 						
+ tipo:  INTEGER
+ 	|REAL
+ 	|CHARACTER
+ 	|STRUCT IDENT
+ 	|VOID
+ 	;
+ 	                  			
+/*Cuerpo de la funcion */
+
+cuerpofuncion: defvariablesLocales	sentenciasOpcionales
+			;
+			
+/* Definicion de variables locales */
+
+defvariablesLocales : defvariablesLocales defvariables
+					|	
+					;		
+/* Sentencias declaracion */
+
+sentenciasOpcionales : listaSentencias 
+					| 
+					;
+					
+listaSentencias :listaSentencias sentencia
+				| sentencia
+				;				
+
+sentencia : condicional
+		| bucle
+		| print
+		| WRITE '(' ListaExpresion ')' ';'
+		| asignacion 
+		| IDENT '(' listaExpresionOpcional ')'
+		| retorno 
+		;
+retorno : RETURN '(' expresion ')' ';'
+		;		
+
+asignacion : expresion '=' expresion ';'
+			;
+			
+print : READ '(' ListaExpresion ')' ';'
+		;
+		
+bucle : WHILE '(' expresion ')' sentenciasOpcionales ENDWHILE
+		;
+		
+condicional :  IF '('expresion ')' THEN sentenciasOpcionales ENDIF           %prec IFSINELSE		
+		    | IF '('expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF
+			;
+/* Expresiones */
+			
+listaExpresionOpcional : ListaExpresion 
+						| /* Nada*/
+						;
+ListaExpresion: ListaExpresion ',' expresion
+				| expresion 	
+				;
+expresion : expresion '+' expresion
+			| expresion '-' expresion
+			| expresion '*' expresion
+			| expresion '/' expresion
+			| expresion '%' expresion
+			|expresion GREATERTHAN expresion
+			|expresion LOWERTHAN expresion
+			|expresion EQUALS expresion
+			| expresion NOTEQUALS expresion
+			|expresion AND expresion
+			|expresion OR expresion
+			| expresion GREATEREQUALS expresion
+			|expresion LOWEREQUALS expresion
+			|IDENT '('listaExpresionOpcional ')'
+			| NOT expresion
+			| expresion '[' expresion ']'
+			| expresion '.' IDENT
+			| LITERALREAL
+			| LITERALINT
+			| CHAR
+			| IDENT
+			;										
 ;	
 
 
