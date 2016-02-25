@@ -1,0 +1,194 @@
+   0  $accept : program $end
+
+   1  program : TYPES dectypes
+
+   2  dectypes : decstruct
+
+   3  decstruct : STRUCT IDENT decvariables ENDSTRUCT
+
+   4  decvariables : decvariables defvariables
+   5               | defvariables
+
+   6  defvariables : tipo IDENT ';'
+   7               | tipo IDENT ',' defvariables
+
+   8  tipo : tipoSimple
+   9       | tipoComplejo
+
+  10  tipoSimple : INTEGER
+  11             | REAL
+  12             | CHARACTER
+
+  13  tipoComplejo :
+
+state 0
+	$accept : . program $end  (0)
+
+	TYPES  shift 1
+	.  error
+
+	program  goto 2
+
+
+state 1
+	program : TYPES . dectypes  (1)
+
+	STRUCT  shift 3
+	.  error
+
+	dectypes  goto 4
+	decstruct  goto 5
+
+
+state 2
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 3
+	decstruct : STRUCT . IDENT decvariables ENDSTRUCT  (3)
+
+	IDENT  shift 6
+	.  error
+
+
+state 4
+	program : TYPES dectypes .  (1)
+
+	.  reduce 1
+
+
+state 5
+	dectypes : decstruct .  (2)
+
+	.  reduce 2
+
+
+state 6
+	decstruct : STRUCT IDENT . decvariables ENDSTRUCT  (3)
+	tipoComplejo : .  (13)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	IDENT  reduce 13
+
+	decvariables  goto 10
+	defvariables  goto 11
+	tipo  goto 12
+	tipoSimple  goto 13
+	tipoComplejo  goto 14
+
+
+state 7
+	tipoSimple : INTEGER .  (10)
+
+	.  reduce 10
+
+
+state 8
+	tipoSimple : REAL .  (11)
+
+	.  reduce 11
+
+
+state 9
+	tipoSimple : CHARACTER .  (12)
+
+	.  reduce 12
+
+
+state 10
+	decstruct : STRUCT IDENT decvariables . ENDSTRUCT  (3)
+	decvariables : decvariables . defvariables  (4)
+	tipoComplejo : .  (13)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	ENDSTRUCT  shift 15
+	IDENT  reduce 13
+
+	defvariables  goto 16
+	tipo  goto 12
+	tipoSimple  goto 13
+	tipoComplejo  goto 14
+
+
+state 11
+	decvariables : defvariables .  (5)
+
+	.  reduce 5
+
+
+state 12
+	defvariables : tipo . IDENT ';'  (6)
+	defvariables : tipo . IDENT ',' defvariables  (7)
+
+	IDENT  shift 17
+	.  error
+
+
+state 13
+	tipo : tipoSimple .  (8)
+
+	.  reduce 8
+
+
+state 14
+	tipo : tipoComplejo .  (9)
+
+	.  reduce 9
+
+
+state 15
+	decstruct : STRUCT IDENT decvariables ENDSTRUCT .  (3)
+
+	.  reduce 3
+
+
+state 16
+	decvariables : decvariables defvariables .  (4)
+
+	.  reduce 4
+
+
+state 17
+	defvariables : tipo IDENT . ';'  (6)
+	defvariables : tipo IDENT . ',' defvariables  (7)
+
+	';'  shift 18
+	','  shift 19
+	.  error
+
+
+state 18
+	defvariables : tipo IDENT ';' .  (6)
+
+	.  reduce 6
+
+
+state 19
+	defvariables : tipo IDENT ',' . defvariables  (7)
+	tipoComplejo : .  (13)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	IDENT  reduce 13
+
+	defvariables  goto 20
+	tipo  goto 12
+	tipoSimple  goto 13
+	tipoComplejo  goto 14
+
+
+state 20
+	defvariables : tipo IDENT ',' defvariables .  (7)
+
+	.  reduce 7
+
+
+46 terminals, 9 nonterminals
+14 grammar rules, 21 states
