@@ -71,14 +71,14 @@ import main.*;
 
 /* Añadir las reglas en esta sección ----------------------- */
 
-program: TYPES dectypes  GLOBALS decvariables PROCEDURES decfunciones MAIN '('')' listaSentencias ENDMAIN
+program: TYPES dectypes  GLOBALS decvariables PROCEDURES decfunciones MAIN '('')' sentenciasOpcionales ENDMAIN
 			; 
 /* Declaracion de type */
 
 dectypes : dectypes decstruct  
-		|decstruct		
+		|	
 		;
-			
+		
 /*Declaracion de structuras */
 
  decstruct : STRUCT IDENT defvarstructs ENDSTRUCT  {}
@@ -97,9 +97,9 @@ dectypes : dectypes decstruct
  				
  /*Declaracion Variables Globales */				
  decvariables : decvariables  defvariables 
- 				| defvariables
+ 				| 
  				;
- 				
+			
  				
  defvariables:  tipo identifierList ';'  ;      
 
@@ -107,7 +107,7 @@ dectypes : dectypes decstruct
 /*Declaracion de funciones en Procedures */
 
 decfunciones: decfunciones decfuncion
-			| decfuncion 
+			| 
 			;
 			
 decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION

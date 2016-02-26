@@ -1,9 +1,9 @@
    0  $accept : program $end
 
-   1  program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' listaSentencias ENDMAIN
+   1  program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN
 
    2  dectypes : dectypes decstruct
-   3           | decstruct
+   3           |
 
    4  decstruct : STRUCT IDENT defvarstructs ENDSTRUCT
 
@@ -12,94 +12,97 @@
 
    7  defparamstruct : defvariables
 
-   8  decvariables : decvariables defvariables
-   9               | defvariables
+   8  decvariables : decvariables defvariablesOpcionales
+   9               | defvariablesOpcionales
 
-  10  defvariables : tipo identifierList ';'
+  10  defvariablesOpcionales : defvariables
+  11                         |
 
-  11  decfunciones : decfunciones decfuncion
-  12               | decfuncion
+  12  defvariables : tipo identifierList ';'
 
-  13  decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION
+  13  decfunciones : decfunciones decfuncion
+  14               |
 
-  14  parametosfunc : listaparam
-  15                |
+  15  decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION
 
-  16  listaparam : tipo identifierList
+  16  parametosfunc : listaparam
+  17                |
 
-  17  identifierList : tipoArray IDENT
-  18                 | IDENT
-  19                 | identifierList ',' IDENT
-  20                 | identifierList ',' tipoArray IDENT
+  18  listaparam : tipo identifierList
 
-  21  tipoArray : tipoArray '[' LITERALINT ']'
-  22            | '[' LITERALINT ']'
+  19  identifierList : tipoArray IDENT
+  20                 | IDENT
+  21                 | identifierList ',' IDENT
+  22                 | identifierList ',' tipoArray IDENT
 
-  23  tipo : INTEGER
-  24       | REAL
-  25       | CHARACTER
-  26       | STRUCT IDENT
-  27       | VOID
+  23  tipoArray : tipoArray '[' LITERALINT ']'
+  24            | '[' LITERALINT ']'
 
-  28  cuerpofuncion : defvariablesLocales sentenciasOpcionales
+  25  tipo : INTEGER
+  26       | REAL
+  27       | CHARACTER
+  28       | STRUCT IDENT
+  29       | VOID
 
-  29  defvariablesLocales : defvariablesLocales defvariables
-  30                      |
+  30  cuerpofuncion : defvariablesLocales sentenciasOpcionales
 
-  31  sentenciasOpcionales : listaSentencias
-  32                       |
+  31  defvariablesLocales : defvariablesLocales defvariables
+  32                      |
 
-  33  listaSentencias : listaSentencias sentencia
-  34                  | sentencia
+  33  sentenciasOpcionales : listaSentencias
+  34                       |
 
-  35  sentencia : condicional
-  36            | bucle
-  37            | print
-  38            | WRITE '(' ListaExpresion ')' ';'
-  39            | asignacion
-  40            | IDENT '(' listaExpresionOpcional ')' ';'
-  41            | retorno
+  35  listaSentencias : listaSentencias sentencia
+  36                  | sentencia
 
-  42  retorno : RETURN '(' expresion ')' ';'
+  37  sentencia : condicional
+  38            | bucle
+  39            | print
+  40            | WRITE '(' ListaExpresion ')' ';'
+  41            | asignacion
+  42            | IDENT '(' listaExpresionOpcional ')' ';'
+  43            | retorno
 
-  43  asignacion : expresion '=' expresion ';'
+  44  retorno : RETURN '(' expresion ')' ';'
 
-  44  print : READ '(' ListaExpresion ')' ';'
+  45  asignacion : expresion '=' expresion ';'
 
-  45  bucle : WHILE '(' expresion ')' sentenciasOpcionales ENDWHILE
+  46  print : READ '(' ListaExpresion ')' ';'
 
-  46  condicional : IF '(' expresion ')' THEN sentenciasOpcionales ENDIF
-  47              | IF '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF
+  47  bucle : WHILE '(' expresion ')' sentenciasOpcionales ENDWHILE
 
-  48  listaExpresionOpcional : ListaExpresion
-  49                         |
+  48  condicional : IF '(' expresion ')' THEN sentenciasOpcionales ENDIF
+  49              | IF '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF
 
-  50  ListaExpresion : ListaExpresion ',' expresion
-  51                 | expresion
+  50  listaExpresionOpcional : ListaExpresion
+  51                         |
 
-  52  expresion : expresion '+' expresion
-  53            | expresion '-' expresion
-  54            | expresion '*' expresion
-  55            | expresion '/' expresion
-  56            | expresion '%' expresion
-  57            | expresion GREATERTHAN expresion
-  58            | expresion LOWERTHAN expresion
-  59            | expresion EQUALS expresion
-  60            | expresion NOTEQUALS expresion
-  61            | expresion AND expresion
-  62            | expresion OR expresion
-  63            | '-' expresion
-  64            | expresion GREATEREQUALS expresion
-  65            | expresion LOWEREQUALS expresion
-  66            | IDENT '(' listaExpresionOpcional ')'
-  67            | NOT expresion
-  68            | expresion '[' expresion ']'
-  69            | expresion '.' IDENT
-  70            | '(' tipo ')' expresion
-  71            | LITERALREAL
-  72            | LITERALINT
-  73            | CHAR
-  74            | IDENT
+  52  ListaExpresion : ListaExpresion ',' expresion
+  53                 | expresion
+
+  54  expresion : expresion '+' expresion
+  55            | expresion '-' expresion
+  56            | expresion '*' expresion
+  57            | expresion '/' expresion
+  58            | expresion '%' expresion
+  59            | expresion GREATERTHAN expresion
+  60            | expresion LOWERTHAN expresion
+  61            | expresion EQUALS expresion
+  62            | expresion NOTEQUALS expresion
+  63            | expresion AND expresion
+  64            | expresion OR expresion
+  65            | '-' expresion
+  66            | expresion GREATEREQUALS expresion
+  67            | expresion LOWEREQUALS expresion
+  68            | IDENT '(' listaExpresionOpcional ')'
+  69            | NOT expresion
+  70            | expresion '[' expresion ']'
+  71            | expresion '.' IDENT
+  72            | '(' tipo ')' expresion
+  73            | LITERALREAL
+  74            | LITERALINT
+  75            | CHAR
+  76            | IDENT
 
 state 0
 	$accept : . program $end  (0)
@@ -111,13 +114,12 @@ state 0
 
 
 state 1
-	program : TYPES . dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' listaSentencias ENDMAIN  (1)
+	program : TYPES . dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN  (1)
+	dectypes : .  (3)
 
-	STRUCT  shift 3
-	.  error
+	.  reduce 3
 
-	dectypes  goto 4
-	decstruct  goto 5
+	dectypes  goto 3
 
 
 state 2
@@ -127,356 +129,370 @@ state 2
 
 
 state 3
-	decstruct : STRUCT . IDENT defvarstructs ENDSTRUCT  (4)
-
-	IDENT  shift 6
-	.  error
-
-
-state 4
-	program : TYPES dectypes . GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' listaSentencias ENDMAIN  (1)
+	program : TYPES dectypes . GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN  (1)
 	dectypes : dectypes . decstruct  (2)
 
-	GLOBALS  shift 7
-	STRUCT  shift 3
+	GLOBALS  shift 4
+	STRUCT  shift 5
 	.  error
 
-	decstruct  goto 8
+	decstruct  goto 6
+
+
+4: shift/reduce conflict (shift 7, reduce 11) on INTEGER
+4: shift/reduce conflict (shift 8, reduce 11) on REAL
+4: shift/reduce conflict (shift 9, reduce 11) on CHARACTER
+4: shift/reduce conflict (shift 10, reduce 11) on STRUCT
+4: shift/reduce conflict (shift 11, reduce 11) on VOID
+state 4
+	program : TYPES dectypes GLOBALS . decvariables PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN  (1)
+	defvariablesOpcionales : .  (11)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	VOID  shift 11
+	PROCEDURES  reduce 11
+
+	decvariables  goto 12
+	defvariables  goto 13
+	defvariablesOpcionales  goto 14
+	tipo  goto 15
 
 
 state 5
-	dectypes : decstruct .  (3)
+	decstruct : STRUCT . IDENT defvarstructs ENDSTRUCT  (4)
 
-	.  reduce 3
+	IDENT  shift 16
+	.  error
 
 
 state 6
-	decstruct : STRUCT IDENT . defvarstructs ENDSTRUCT  (4)
-
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	VOID  shift 13
-	.  error
-
-	defvarstructs  goto 14
-	defparamstruct  goto 15
-	defvariables  goto 16
-	tipo  goto 17
-
-
-state 7
-	program : TYPES dectypes GLOBALS . decvariables PROCEDURES decfunciones MAIN '(' ')' listaSentencias ENDMAIN  (1)
-
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	VOID  shift 13
-	.  error
-
-	decvariables  goto 18
-	defvariables  goto 19
-	tipo  goto 17
-
-
-state 8
 	dectypes : dectypes decstruct .  (2)
 
 	.  reduce 2
 
 
-state 9
-	tipo : INTEGER .  (23)
-
-	.  reduce 23
-
-
-state 10
-	tipo : REAL .  (24)
-
-	.  reduce 24
-
-
-state 11
-	tipo : CHARACTER .  (25)
+state 7
+	tipo : INTEGER .  (25)
 
 	.  reduce 25
 
 
-state 12
-	tipo : STRUCT . IDENT  (26)
+state 8
+	tipo : REAL .  (26)
 
-	IDENT  shift 20
-	.  error
+	.  reduce 26
 
 
-state 13
-	tipo : VOID .  (27)
+state 9
+	tipo : CHARACTER .  (27)
 
 	.  reduce 27
 
 
-state 14
-	decstruct : STRUCT IDENT defvarstructs . ENDSTRUCT  (4)
-	defvarstructs : defvarstructs . defparamstruct  (5)
+state 10
+	tipo : STRUCT . IDENT  (28)
 
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	ENDSTRUCT  shift 21
-	VOID  shift 13
+	IDENT  shift 17
 	.  error
 
-	defparamstruct  goto 22
-	defvariables  goto 16
-	tipo  goto 17
+
+state 11
+	tipo : VOID .  (29)
+
+	.  reduce 29
+
+
+12: shift/reduce conflict (shift 7, reduce 11) on INTEGER
+12: shift/reduce conflict (shift 8, reduce 11) on REAL
+12: shift/reduce conflict (shift 9, reduce 11) on CHARACTER
+12: shift/reduce conflict (shift 10, reduce 11) on STRUCT
+12: shift/reduce conflict (shift 18, reduce 11) on PROCEDURES
+12: shift/reduce conflict (shift 11, reduce 11) on VOID
+state 12
+	program : TYPES dectypes GLOBALS decvariables . PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN  (1)
+	decvariables : decvariables . defvariablesOpcionales  (8)
+	defvariablesOpcionales : .  (11)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	PROCEDURES  shift 18
+	VOID  shift 11
+
+	defvariables  goto 13
+	defvariablesOpcionales  goto 19
+	tipo  goto 15
+
+
+state 13
+	defvariablesOpcionales : defvariables .  (10)
+
+	.  reduce 10
+
+
+state 14
+	decvariables : defvariablesOpcionales .  (9)
+
+	.  reduce 9
 
 
 state 15
+	defvariables : tipo . identifierList ';'  (12)
+
+	IDENT  shift 20
+	'['  shift 21
+	.  error
+
+	identifierList  goto 22
+	tipoArray  goto 23
+
+
+state 16
+	decstruct : STRUCT IDENT . defvarstructs ENDSTRUCT  (4)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	VOID  shift 11
+	.  error
+
+	defvarstructs  goto 24
+	defparamstruct  goto 25
+	defvariables  goto 26
+	tipo  goto 15
+
+
+state 17
+	tipo : STRUCT IDENT .  (28)
+
+	.  reduce 28
+
+
+state 18
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES . decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN  (1)
+	decfunciones : .  (14)
+
+	.  reduce 14
+
+	decfunciones  goto 27
+
+
+state 19
+	decvariables : decvariables defvariablesOpcionales .  (8)
+
+	.  reduce 8
+
+
+state 20
+	identifierList : IDENT .  (20)
+
+	.  reduce 20
+
+
+state 21
+	tipoArray : '[' . LITERALINT ']'  (24)
+
+	LITERALINT  shift 28
+	.  error
+
+
+state 22
+	defvariables : tipo identifierList . ';'  (12)
+	identifierList : identifierList . ',' IDENT  (21)
+	identifierList : identifierList . ',' tipoArray IDENT  (22)
+
+	';'  shift 29
+	','  shift 30
+	.  error
+
+
+state 23
+	identifierList : tipoArray . IDENT  (19)
+	tipoArray : tipoArray . '[' LITERALINT ']'  (23)
+
+	IDENT  shift 31
+	'['  shift 32
+	.  error
+
+
+state 24
+	decstruct : STRUCT IDENT defvarstructs . ENDSTRUCT  (4)
+	defvarstructs : defvarstructs . defparamstruct  (5)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	ENDSTRUCT  shift 33
+	VOID  shift 11
+	.  error
+
+	defparamstruct  goto 34
+	defvariables  goto 26
+	tipo  goto 15
+
+
+state 25
 	defvarstructs : defparamstruct .  (6)
 
 	.  reduce 6
 
 
-state 16
+state 26
 	defparamstruct : defvariables .  (7)
 
 	.  reduce 7
 
 
-state 17
-	defvariables : tipo . identifierList ';'  (10)
+state 27
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones . MAIN '(' ')' sentenciasOpcionales ENDMAIN  (1)
+	decfunciones : decfunciones . decfuncion  (13)
 
-	IDENT  shift 23
-	'['  shift 24
+	FUNCTION  shift 35
+	MAIN  shift 36
 	.  error
 
-	identifierList  goto 25
-	tipoArray  goto 26
+	decfuncion  goto 37
 
 
-state 18
-	program : TYPES dectypes GLOBALS decvariables . PROCEDURES decfunciones MAIN '(' ')' listaSentencias ENDMAIN  (1)
-	decvariables : decvariables . defvariables  (8)
+state 28
+	tipoArray : '[' LITERALINT . ']'  (24)
 
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	PROCEDURES  shift 27
-	VOID  shift 13
+	']'  shift 38
 	.  error
 
-	defvariables  goto 28
-	tipo  goto 17
+
+state 29
+	defvariables : tipo identifierList ';' .  (12)
+
+	.  reduce 12
 
 
-state 19
-	decvariables : defvariables .  (9)
+state 30
+	identifierList : identifierList ',' . IDENT  (21)
+	identifierList : identifierList ',' . tipoArray IDENT  (22)
 
-	.  reduce 9
+	IDENT  shift 39
+	'['  shift 21
+	.  error
+
+	tipoArray  goto 40
 
 
-state 20
-	tipo : STRUCT IDENT .  (26)
+state 31
+	identifierList : tipoArray IDENT .  (19)
 
-	.  reduce 26
+	.  reduce 19
 
 
-state 21
+state 32
+	tipoArray : tipoArray '[' . LITERALINT ']'  (23)
+
+	LITERALINT  shift 41
+	.  error
+
+
+state 33
 	decstruct : STRUCT IDENT defvarstructs ENDSTRUCT .  (4)
 
 	.  reduce 4
 
 
-state 22
+state 34
 	defvarstructs : defvarstructs defparamstruct .  (5)
 
 	.  reduce 5
 
 
-state 23
-	identifierList : IDENT .  (18)
-
-	.  reduce 18
-
-
-state 24
-	tipoArray : '[' . LITERALINT ']'  (22)
-
-	LITERALINT  shift 29
-	.  error
-
-
-state 25
-	defvariables : tipo identifierList . ';'  (10)
-	identifierList : identifierList . ',' IDENT  (19)
-	identifierList : identifierList . ',' tipoArray IDENT  (20)
-
-	';'  shift 30
-	','  shift 31
-	.  error
-
-
-state 26
-	identifierList : tipoArray . IDENT  (17)
-	tipoArray : tipoArray . '[' LITERALINT ']'  (21)
-
-	IDENT  shift 32
-	'['  shift 33
-	.  error
-
-
-state 27
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES . decfunciones MAIN '(' ')' listaSentencias ENDMAIN  (1)
-
-	FUNCTION  shift 34
-	.  error
-
-	decfunciones  goto 35
-	decfuncion  goto 36
-
-
-state 28
-	decvariables : decvariables defvariables .  (8)
-
-	.  reduce 8
-
-
-state 29
-	tipoArray : '[' LITERALINT . ']'  (22)
-
-	']'  shift 37
-	.  error
-
-
-state 30
-	defvariables : tipo identifierList ';' .  (10)
-
-	.  reduce 10
-
-
-state 31
-	identifierList : identifierList ',' . IDENT  (19)
-	identifierList : identifierList ',' . tipoArray IDENT  (20)
-
-	IDENT  shift 38
-	'['  shift 24
-	.  error
-
-	tipoArray  goto 39
-
-
-state 32
-	identifierList : tipoArray IDENT .  (17)
-
-	.  reduce 17
-
-
-state 33
-	tipoArray : tipoArray '[' . LITERALINT ']'  (21)
-
-	LITERALINT  shift 40
-	.  error
-
-
-state 34
-	decfuncion : FUNCTION . IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION  (13)
-
-	IDENT  shift 41
-	.  error
-
-
 state 35
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones . MAIN '(' ')' listaSentencias ENDMAIN  (1)
-	decfunciones : decfunciones . decfuncion  (11)
+	decfuncion : FUNCTION . IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION  (15)
 
-	FUNCTION  shift 34
-	MAIN  shift 42
+	IDENT  shift 42
 	.  error
-
-	decfuncion  goto 43
 
 
 state 36
-	decfunciones : decfuncion .  (12)
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN . '(' ')' sentenciasOpcionales ENDMAIN  (1)
 
-	.  reduce 12
-
-
-state 37
-	tipoArray : '[' LITERALINT ']' .  (22)
-
-	.  reduce 22
-
-
-state 38
-	identifierList : identifierList ',' IDENT .  (19)
-
-	.  reduce 19
-
-
-state 39
-	identifierList : identifierList ',' tipoArray . IDENT  (20)
-	tipoArray : tipoArray . '[' LITERALINT ']'  (21)
-
-	IDENT  shift 44
-	'['  shift 33
+	'('  shift 43
 	.  error
 
 
+state 37
+	decfunciones : decfunciones decfuncion .  (13)
+
+	.  reduce 13
+
+
+state 38
+	tipoArray : '[' LITERALINT ']' .  (24)
+
+	.  reduce 24
+
+
+state 39
+	identifierList : identifierList ',' IDENT .  (21)
+
+	.  reduce 21
+
+
 state 40
-	tipoArray : tipoArray '[' LITERALINT . ']'  (21)
+	identifierList : identifierList ',' tipoArray . IDENT  (22)
+	tipoArray : tipoArray . '[' LITERALINT ']'  (23)
+
+	IDENT  shift 44
+	'['  shift 32
+	.  error
+
+
+state 41
+	tipoArray : tipoArray '[' LITERALINT . ']'  (23)
 
 	']'  shift 45
 	.  error
 
 
-state 41
-	decfuncion : FUNCTION IDENT . '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION  (13)
+state 42
+	decfuncion : FUNCTION IDENT . '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION  (15)
 
 	'('  shift 46
 	.  error
 
 
-state 42
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN . '(' ')' listaSentencias ENDMAIN  (1)
+state 43
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' . ')' sentenciasOpcionales ENDMAIN  (1)
 
-	'('  shift 47
+	')'  shift 47
 	.  error
 
 
-state 43
-	decfunciones : decfunciones decfuncion .  (11)
-
-	.  reduce 11
-
-
 state 44
-	identifierList : identifierList ',' tipoArray IDENT .  (20)
+	identifierList : identifierList ',' tipoArray IDENT .  (22)
 
-	.  reduce 20
+	.  reduce 22
 
 
 state 45
-	tipoArray : tipoArray '[' LITERALINT ']' .  (21)
+	tipoArray : tipoArray '[' LITERALINT ']' .  (23)
 
-	.  reduce 21
+	.  reduce 23
 
 
 state 46
-	decfuncion : FUNCTION IDENT '(' . parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION  (13)
-	parametosfunc : .  (15)
+	decfuncion : FUNCTION IDENT '(' . parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION  (15)
+	parametosfunc : .  (17)
 
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	VOID  shift 13
-	')'  reduce 15
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	VOID  shift 11
+	')'  reduce 17
 
 	tipo  goto 48
 	parametosfunc  goto 49
@@ -484,1140 +500,489 @@ state 46
 
 
 state 47
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' . ')' listaSentencias ENDMAIN  (1)
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' . sentenciasOpcionales ENDMAIN  (1)
+	sentenciasOpcionales : .  (34)
 
-	')'  shift 51
-	.  error
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 53
+	NOT  shift 54
+	WHILE  shift 55
+	IF  shift 56
+	RETURN  shift 57
+	READ  shift 58
+	WRITE  shift 59
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	ENDMAIN  reduce 34
+
+	sentenciasOpcionales  goto 63
+	listaSentencias  goto 64
+	sentencia  goto 65
+	condicional  goto 66
+	bucle  goto 67
+	print  goto 68
+	asignacion  goto 69
+	retorno  goto 70
+	expresion  goto 71
 
 
 state 48
-	listaparam : tipo . identifierList  (16)
+	listaparam : tipo . identifierList  (18)
 
-	IDENT  shift 23
-	'['  shift 24
+	IDENT  shift 20
+	'['  shift 21
 	.  error
 
-	identifierList  goto 52
-	tipoArray  goto 26
+	identifierList  goto 72
+	tipoArray  goto 23
 
 
 state 49
-	decfuncion : FUNCTION IDENT '(' parametosfunc . ')' AS tipo cuerpofuncion ENDFUNCTION  (13)
+	decfuncion : FUNCTION IDENT '(' parametosfunc . ')' AS tipo cuerpofuncion ENDFUNCTION  (15)
 
-	')'  shift 53
+	')'  shift 73
 	.  error
 
 
 state 50
-	parametosfunc : listaparam .  (14)
+	parametosfunc : listaparam .  (16)
 
-	.  reduce 14
+	.  reduce 16
 
 
 state 51
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' . listaSentencias ENDMAIN  (1)
+	expresion : LITERALREAL .  (73)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	NOT  shift 57
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	listaSentencias  goto 66
-	sentencia  goto 67
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
+	.  reduce 73
 
 
 state 52
-	listaparam : tipo identifierList .  (16)
-	identifierList : identifierList . ',' IDENT  (19)
-	identifierList : identifierList . ',' tipoArray IDENT  (20)
+	expresion : LITERALINT .  (74)
 
-	','  shift 31
-	')'  reduce 16
+	.  reduce 74
 
 
 state 53
-	decfuncion : FUNCTION IDENT '(' parametosfunc ')' . AS tipo cuerpofuncion ENDFUNCTION  (13)
+	sentencia : IDENT . '(' listaExpresionOpcional ')' ';'  (42)
+	expresion : IDENT . '(' listaExpresionOpcional ')'  (68)
+	expresion : IDENT .  (76)
 
-	AS  shift 74
-	.  error
+	'('  shift 74
+	LOWERTHAN  reduce 76
+	GREATERTHAN  reduce 76
+	GREATEREQUALS  reduce 76
+	LOWEREQUALS  reduce 76
+	EQUALS  reduce 76
+	NOTEQUALS  reduce 76
+	AND  reduce 76
+	OR  reduce 76
+	'+'  reduce 76
+	'-'  reduce 76
+	'*'  reduce 76
+	'/'  reduce 76
+	'%'  reduce 76
+	'['  reduce 76
+	'.'  reduce 76
+	'='  reduce 76
 
 
 state 54
-	expresion : LITERALREAL .  (71)
+	expresion : NOT . expresion  (69)
 
-	.  reduce 71
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 76
 
 
 state 55
-	expresion : LITERALINT .  (72)
+	bucle : WHILE . '(' expresion ')' sentenciasOpcionales ENDWHILE  (47)
 
-	.  reduce 72
+	'('  shift 77
+	.  error
 
 
 state 56
-	sentencia : IDENT . '(' listaExpresionOpcional ')' ';'  (40)
-	expresion : IDENT . '(' listaExpresionOpcional ')'  (66)
-	expresion : IDENT .  (74)
-
-	'('  shift 75
-	LOWERTHAN  reduce 74
-	GREATERTHAN  reduce 74
-	GREATEREQUALS  reduce 74
-	LOWEREQUALS  reduce 74
-	EQUALS  reduce 74
-	NOTEQUALS  reduce 74
-	AND  reduce 74
-	OR  reduce 74
-	'+'  reduce 74
-	'-'  reduce 74
-	'*'  reduce 74
-	'/'  reduce 74
-	'%'  reduce 74
-	'['  reduce 74
-	'.'  reduce 74
-	'='  reduce 74
-
-
-state 57
-	expresion : NOT . expresion  (67)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 77
-
-
-state 58
-	bucle : WHILE . '(' expresion ')' sentenciasOpcionales ENDWHILE  (45)
+	condicional : IF . '(' expresion ')' THEN sentenciasOpcionales ENDIF  (48)
+	condicional : IF . '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (49)
 
 	'('  shift 78
 	.  error
 
 
-state 59
-	condicional : IF . '(' expresion ')' THEN sentenciasOpcionales ENDIF  (46)
-	condicional : IF . '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (47)
+state 57
+	retorno : RETURN . '(' expresion ')' ';'  (44)
 
 	'('  shift 79
 	.  error
 
 
-state 60
-	retorno : RETURN . '(' expresion ')' ';'  (42)
+state 58
+	print : READ . '(' ListaExpresion ')' ';'  (46)
 
 	'('  shift 80
 	.  error
 
 
-state 61
-	print : READ . '(' ListaExpresion ')' ';'  (44)
+state 59
+	sentencia : WRITE . '(' ListaExpresion ')' ';'  (40)
 
 	'('  shift 81
 	.  error
 
 
-state 62
-	sentencia : WRITE . '(' ListaExpresion ')' ';'  (38)
+state 60
+	expresion : CHAR .  (75)
 
-	'('  shift 82
+	.  reduce 75
+
+
+state 61
+	expresion : '-' . expresion  (65)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
 	.  error
+
+	expresion  goto 82
+
+
+state 62
+	expresion : '(' . tipo ')' expresion  (72)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	VOID  shift 11
+	.  error
+
+	tipo  goto 83
 
 
 state 63
-	expresion : CHAR .  (73)
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales . ENDMAIN  (1)
 
-	.  reduce 73
+	ENDMAIN  shift 84
+	.  error
 
 
 state 64
-	expresion : '-' . expresion  (63)
+	sentenciasOpcionales : listaSentencias .  (33)
+	listaSentencias : listaSentencias . sentencia  (35)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 53
+	NOT  shift 54
+	WHILE  shift 55
+	IF  shift 56
+	RETURN  shift 57
+	READ  shift 58
+	WRITE  shift 59
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	ENDFUNCTION  reduce 33
+	ENDMAIN  reduce 33
+	ENDWHILE  reduce 33
+	ELSE  reduce 33
+	ENDIF  reduce 33
 
-	expresion  goto 83
+	sentencia  goto 85
+	condicional  goto 66
+	bucle  goto 67
+	print  goto 68
+	asignacion  goto 69
+	retorno  goto 70
+	expresion  goto 71
 
 
 state 65
-	expresion : '(' . tipo ')' expresion  (70)
-
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	VOID  shift 13
-	.  error
-
-	tipo  goto 84
-
-
-state 66
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' listaSentencias . ENDMAIN  (1)
-	listaSentencias : listaSentencias . sentencia  (33)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	NOT  shift 57
-	ENDMAIN  shift 85
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	sentencia  goto 86
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
-
-
-state 67
-	listaSentencias : sentencia .  (34)
-
-	.  reduce 34
-
-
-state 68
-	sentencia : condicional .  (35)
-
-	.  reduce 35
-
-
-state 69
-	sentencia : bucle .  (36)
+	listaSentencias : sentencia .  (36)
 
 	.  reduce 36
 
 
-state 70
-	sentencia : print .  (37)
+state 66
+	sentencia : condicional .  (37)
 
 	.  reduce 37
 
 
-state 71
-	sentencia : asignacion .  (39)
+state 67
+	sentencia : bucle .  (38)
+
+	.  reduce 38
+
+
+state 68
+	sentencia : print .  (39)
 
 	.  reduce 39
 
 
-state 72
-	sentencia : retorno .  (41)
+state 69
+	sentencia : asignacion .  (41)
 
 	.  reduce 41
 
 
-state 73
-	asignacion : expresion . '=' expresion ';'  (43)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 70
+	sentencia : retorno .  (43)
 
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	'='  shift 102
+	.  reduce 43
+
+
+state 71
+	asignacion : expresion . '=' expresion ';'  (45)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	'='  shift 101
+	.  error
+
+
+state 72
+	listaparam : tipo identifierList .  (18)
+	identifierList : identifierList . ',' IDENT  (21)
+	identifierList : identifierList . ',' tipoArray IDENT  (22)
+
+	','  shift 30
+	')'  reduce 18
+
+
+state 73
+	decfuncion : FUNCTION IDENT '(' parametosfunc ')' . AS tipo cuerpofuncion ENDFUNCTION  (15)
+
+	AS  shift 102
 	.  error
 
 
 state 74
-	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS . tipo cuerpofuncion ENDFUNCTION  (13)
+	sentencia : IDENT '(' . listaExpresionOpcional ')' ';'  (42)
+	expresion : IDENT '(' . listaExpresionOpcional ')'  (68)
+	listaExpresionOpcional : .  (51)
 
-	INTEGER  shift 9
-	REAL  shift 10
-	CHARACTER  shift 11
-	STRUCT  shift 12
-	VOID  shift 13
-	.  error
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	')'  reduce 51
 
-	tipo  goto 103
+	ListaExpresion  goto 103
+	listaExpresionOpcional  goto 104
+	expresion  goto 105
 
 
 state 75
-	sentencia : IDENT '(' . listaExpresionOpcional ')' ';'  (40)
-	expresion : IDENT '(' . listaExpresionOpcional ')'  (66)
-	listaExpresionOpcional : .  (49)
+	expresion : IDENT . '(' listaExpresionOpcional ')'  (68)
+	expresion : IDENT .  (76)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	')'  reduce 49
-
-	ListaExpresion  goto 104
-	listaExpresionOpcional  goto 105
-	expresion  goto 106
+	'('  shift 106
+	LOWERTHAN  reduce 76
+	GREATERTHAN  reduce 76
+	GREATEREQUALS  reduce 76
+	LOWEREQUALS  reduce 76
+	EQUALS  reduce 76
+	NOTEQUALS  reduce 76
+	AND  reduce 76
+	OR  reduce 76
+	'+'  reduce 76
+	'-'  reduce 76
+	'*'  reduce 76
+	'/'  reduce 76
+	'%'  reduce 76
+	'['  reduce 76
+	']'  reduce 76
+	'.'  reduce 76
+	')'  reduce 76
+	';'  reduce 76
+	','  reduce 76
+	'='  reduce 76
 
 
 state 76
-	expresion : IDENT . '(' listaExpresionOpcional ')'  (66)
-	expresion : IDENT .  (74)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : NOT expresion .  (69)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	'('  shift 107
-	LOWERTHAN  reduce 74
-	GREATERTHAN  reduce 74
-	GREATEREQUALS  reduce 74
-	LOWEREQUALS  reduce 74
-	EQUALS  reduce 74
-	NOTEQUALS  reduce 74
-	AND  reduce 74
-	OR  reduce 74
-	'+'  reduce 74
-	'-'  reduce 74
-	'*'  reduce 74
-	'/'  reduce 74
-	'%'  reduce 74
-	'['  reduce 74
-	']'  reduce 74
-	'.'  reduce 74
-	')'  reduce 74
-	';'  reduce 74
-	','  reduce 74
-	'='  reduce 74
+	'.'  shift 100
+	LOWERTHAN  reduce 69
+	GREATERTHAN  reduce 69
+	GREATEREQUALS  reduce 69
+	LOWEREQUALS  reduce 69
+	EQUALS  reduce 69
+	NOTEQUALS  reduce 69
+	AND  reduce 69
+	OR  reduce 69
+	'+'  reduce 69
+	'-'  reduce 69
+	'*'  reduce 69
+	'/'  reduce 69
+	'%'  reduce 69
+	'['  reduce 69
+	']'  reduce 69
+	')'  reduce 69
+	';'  reduce 69
+	','  reduce 69
+	'='  reduce 69
 
 
 state 77
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : NOT expresion .  (67)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+	bucle : WHILE '(' . expresion ')' sentenciasOpcionales ENDWHILE  (47)
 
-	'.'  shift 101
-	LOWERTHAN  reduce 67
-	GREATERTHAN  reduce 67
-	GREATEREQUALS  reduce 67
-	LOWEREQUALS  reduce 67
-	EQUALS  reduce 67
-	NOTEQUALS  reduce 67
-	AND  reduce 67
-	OR  reduce 67
-	'+'  reduce 67
-	'-'  reduce 67
-	'*'  reduce 67
-	'/'  reduce 67
-	'%'  reduce 67
-	'['  reduce 67
-	']'  reduce 67
-	')'  reduce 67
-	';'  reduce 67
-	','  reduce 67
-	'='  reduce 67
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 107
 
 
 state 78
-	bucle : WHILE '(' . expresion ')' sentenciasOpcionales ENDWHILE  (45)
+	condicional : IF '(' . expresion ')' THEN sentenciasOpcionales ENDIF  (48)
+	condicional : IF '(' . expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (49)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
 	.  error
 
 	expresion  goto 108
 
 
 state 79
-	condicional : IF '(' . expresion ')' THEN sentenciasOpcionales ENDIF  (46)
-	condicional : IF '(' . expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (47)
+	retorno : RETURN '(' . expresion ')' ';'  (44)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
 	.  error
 
 	expresion  goto 109
 
 
 state 80
-	retorno : RETURN '(' . expresion ')' ';'  (42)
+	print : READ '(' . ListaExpresion ')' ';'  (46)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
 	.  error
 
-	expresion  goto 110
+	ListaExpresion  goto 110
+	expresion  goto 105
 
 
 state 81
-	print : READ '(' . ListaExpresion ')' ';'  (44)
+	sentencia : WRITE '(' . ListaExpresion ')' ';'  (40)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
 	.  error
 
 	ListaExpresion  goto 111
-	expresion  goto 106
+	expresion  goto 105
 
 
 state 82
-	sentencia : WRITE '(' . ListaExpresion ')' ';'  (38)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	ListaExpresion  goto 112
-	expresion  goto 106
-
-
-state 83
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : '-' expresion .  (63)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	'.'  shift 101
-	LOWERTHAN  reduce 63
-	GREATERTHAN  reduce 63
-	GREATEREQUALS  reduce 63
-	LOWEREQUALS  reduce 63
-	EQUALS  reduce 63
-	NOTEQUALS  reduce 63
-	AND  reduce 63
-	OR  reduce 63
-	'+'  reduce 63
-	'-'  reduce 63
-	'*'  reduce 63
-	'/'  reduce 63
-	'%'  reduce 63
-	'['  reduce 63
-	']'  reduce 63
-	')'  reduce 63
-	';'  reduce 63
-	','  reduce 63
-	'='  reduce 63
-
-
-state 84
-	expresion : '(' tipo . ')' expresion  (70)
-
-	')'  shift 113
-	.  error
-
-
-state 85
-	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' listaSentencias ENDMAIN .  (1)
-
-	.  reduce 1
-
-
-state 86
-	listaSentencias : listaSentencias sentencia .  (33)
-
-	.  reduce 33
-
-
-state 87
-	expresion : expresion LOWERTHAN . expresion  (58)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 114
-
-
-state 88
-	expresion : expresion GREATERTHAN . expresion  (57)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 115
-
-
-state 89
-	expresion : expresion GREATEREQUALS . expresion  (64)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 116
-
-
-state 90
-	expresion : expresion LOWEREQUALS . expresion  (65)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 117
-
-
-state 91
-	expresion : expresion EQUALS . expresion  (59)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 118
-
-
-state 92
-	expresion : expresion NOTEQUALS . expresion  (60)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 119
-
-
-state 93
-	expresion : expresion AND . expresion  (61)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 120
-
-
-state 94
-	expresion : expresion OR . expresion  (62)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 121
-
-
-state 95
-	expresion : expresion '+' . expresion  (52)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 122
-
-
-state 96
-	expresion : expresion '-' . expresion  (53)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 123
-
-
-state 97
-	expresion : expresion '*' . expresion  (54)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 124
-
-
-state 98
-	expresion : expresion '/' . expresion  (55)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 125
-
-
-state 99
-	expresion : expresion '%' . expresion  (56)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 126
-
-
-state 100
-	expresion : expresion '[' . expresion ']'  (68)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 127
-
-
-state 101
-	expresion : expresion '.' . IDENT  (69)
-
-	IDENT  shift 128
-	.  error
-
-
-state 102
-	asignacion : expresion '=' . expresion ';'  (43)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 129
-
-
-state 103
-	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo . cuerpofuncion ENDFUNCTION  (13)
-	defvariablesLocales : .  (30)
-
-	.  reduce 30
-
-	cuerpofuncion  goto 130
-	defvariablesLocales  goto 131
-
-
-state 104
-	listaExpresionOpcional : ListaExpresion .  (48)
-	ListaExpresion : ListaExpresion . ',' expresion  (50)
-
-	','  shift 132
-	')'  reduce 48
-
-
-state 105
-	sentencia : IDENT '(' listaExpresionOpcional . ')' ';'  (40)
-	expresion : IDENT '(' listaExpresionOpcional . ')'  (66)
-
-	')'  shift 133
-	.  error
-
-
-state 106
-	ListaExpresion : expresion .  (51)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	')'  reduce 51
-	','  reduce 51
-
-
-state 107
-	expresion : IDENT '(' . listaExpresionOpcional ')'  (66)
-	listaExpresionOpcional : .  (49)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	')'  reduce 49
-
-	ListaExpresion  goto 104
-	listaExpresionOpcional  goto 134
-	expresion  goto 106
-
-
-state 108
-	bucle : WHILE '(' expresion . ')' sentenciasOpcionales ENDWHILE  (45)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	')'  shift 135
-	.  error
-
-
-state 109
-	condicional : IF '(' expresion . ')' THEN sentenciasOpcionales ENDIF  (46)
-	condicional : IF '(' expresion . ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (47)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	')'  shift 136
-	.  error
-
-
-state 110
-	retorno : RETURN '(' expresion . ')' ';'  (42)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	')'  shift 137
-	.  error
-
-
-state 111
-	print : READ '(' ListaExpresion . ')' ';'  (44)
-	ListaExpresion : ListaExpresion . ',' expresion  (50)
-
-	')'  shift 138
-	','  shift 132
-	.  error
-
-
-state 112
-	sentencia : WRITE '(' ListaExpresion . ')' ';'  (38)
-	ListaExpresion : ListaExpresion . ',' expresion  (50)
-
-	')'  shift 139
-	','  shift 132
-	.  error
-
-
-state 113
-	expresion : '(' tipo ')' . expresion  (70)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	.  error
-
-	expresion  goto 140
-
-
-state 114
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion LOWERTHAN expresion .  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	LOWERTHAN  reduce 58
-	GREATERTHAN  reduce 58
-	GREATEREQUALS  reduce 58
-	LOWEREQUALS  reduce 58
-	EQUALS  reduce 58
-	NOTEQUALS  reduce 58
-	AND  reduce 58
-	OR  reduce 58
-	']'  reduce 58
-	')'  reduce 58
-	';'  reduce 58
-	','  reduce 58
-	'='  reduce 58
-
-
-state 115
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion GREATERTHAN expresion .  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	LOWERTHAN  reduce 57
-	GREATERTHAN  reduce 57
-	GREATEREQUALS  reduce 57
-	LOWEREQUALS  reduce 57
-	EQUALS  reduce 57
-	NOTEQUALS  reduce 57
-	AND  reduce 57
-	OR  reduce 57
-	']'  reduce 57
-	')'  reduce 57
-	';'  reduce 57
-	','  reduce 57
-	'='  reduce 57
-
-
-state 116
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion GREATEREQUALS expresion .  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	LOWERTHAN  reduce 64
-	GREATERTHAN  reduce 64
-	GREATEREQUALS  reduce 64
-	LOWEREQUALS  reduce 64
-	EQUALS  reduce 64
-	NOTEQUALS  reduce 64
-	AND  reduce 64
-	OR  reduce 64
-	']'  reduce 64
-	')'  reduce 64
-	';'  reduce 64
-	','  reduce 64
-	'='  reduce 64
-
-
-state 117
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion LOWEREQUALS expresion .  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : '-' expresion .  (65)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'.'  shift 100
 	LOWERTHAN  reduce 65
 	GREATERTHAN  reduce 65
 	GREATEREQUALS  reduce 65
@@ -1626,6 +991,12 @@ state 117
 	NOTEQUALS  reduce 65
 	AND  reduce 65
 	OR  reduce 65
+	'+'  reduce 65
+	'-'  reduce 65
+	'*'  reduce 65
+	'/'  reduce 65
+	'%'  reduce 65
+	'['  reduce 65
 	']'  reduce 65
 	')'  reduce 65
 	';'  reduce 65
@@ -1633,71 +1004,511 @@ state 117
 	'='  reduce 65
 
 
-state 118
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion EQUALS expresion .  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 83
+	expresion : '(' tipo . ')' expresion  (72)
 
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	LOWERTHAN  reduce 59
-	GREATERTHAN  reduce 59
-	GREATEREQUALS  reduce 59
-	LOWEREQUALS  reduce 59
-	EQUALS  reduce 59
-	NOTEQUALS  reduce 59
-	AND  reduce 59
-	OR  reduce 59
-	']'  reduce 59
-	')'  reduce 59
-	';'  reduce 59
-	','  reduce 59
-	'='  reduce 59
+	')'  shift 112
+	.  error
 
 
-state 119
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion NOTEQUALS expresion .  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 84
+	program : TYPES dectypes GLOBALS decvariables PROCEDURES decfunciones MAIN '(' ')' sentenciasOpcionales ENDMAIN .  (1)
 
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
+	.  reduce 1
+
+
+state 85
+	listaSentencias : listaSentencias sentencia .  (35)
+
+	.  reduce 35
+
+
+state 86
+	expresion : expresion LOWERTHAN . expresion  (60)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 113
+
+
+state 87
+	expresion : expresion GREATERTHAN . expresion  (59)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 114
+
+
+state 88
+	expresion : expresion GREATEREQUALS . expresion  (66)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 115
+
+
+state 89
+	expresion : expresion LOWEREQUALS . expresion  (67)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 116
+
+
+state 90
+	expresion : expresion EQUALS . expresion  (61)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 117
+
+
+state 91
+	expresion : expresion NOTEQUALS . expresion  (62)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 118
+
+
+state 92
+	expresion : expresion AND . expresion  (63)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 119
+
+
+state 93
+	expresion : expresion OR . expresion  (64)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 120
+
+
+state 94
+	expresion : expresion '+' . expresion  (54)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 121
+
+
+state 95
+	expresion : expresion '-' . expresion  (55)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 122
+
+
+state 96
+	expresion : expresion '*' . expresion  (56)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 123
+
+
+state 97
+	expresion : expresion '/' . expresion  (57)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 124
+
+
+state 98
+	expresion : expresion '%' . expresion  (58)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 125
+
+
+state 99
+	expresion : expresion '[' . expresion ']'  (70)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 126
+
+
+state 100
+	expresion : expresion '.' . IDENT  (71)
+
+	IDENT  shift 127
+	.  error
+
+
+state 101
+	asignacion : expresion '=' . expresion ';'  (45)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 128
+
+
+state 102
+	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS . tipo cuerpofuncion ENDFUNCTION  (15)
+
+	INTEGER  shift 7
+	REAL  shift 8
+	CHARACTER  shift 9
+	STRUCT  shift 10
+	VOID  shift 11
+	.  error
+
+	tipo  goto 129
+
+
+state 103
+	listaExpresionOpcional : ListaExpresion .  (50)
+	ListaExpresion : ListaExpresion . ',' expresion  (52)
+
+	','  shift 130
+	')'  reduce 50
+
+
+state 104
+	sentencia : IDENT '(' listaExpresionOpcional . ')' ';'  (42)
+	expresion : IDENT '(' listaExpresionOpcional . ')'  (68)
+
+	')'  shift 131
+	.  error
+
+
+state 105
+	ListaExpresion : expresion .  (53)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	')'  reduce 53
+	','  reduce 53
+
+
+state 106
+	expresion : IDENT '(' . listaExpresionOpcional ')'  (68)
+	listaExpresionOpcional : .  (51)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	')'  reduce 51
+
+	ListaExpresion  goto 103
+	listaExpresionOpcional  goto 132
+	expresion  goto 105
+
+
+state 107
+	bucle : WHILE '(' expresion . ')' sentenciasOpcionales ENDWHILE  (47)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	')'  shift 133
+	.  error
+
+
+state 108
+	condicional : IF '(' expresion . ')' THEN sentenciasOpcionales ENDIF  (48)
+	condicional : IF '(' expresion . ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (49)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	')'  shift 134
+	.  error
+
+
+state 109
+	retorno : RETURN '(' expresion . ')' ';'  (44)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	')'  shift 135
+	.  error
+
+
+state 110
+	print : READ '(' ListaExpresion . ')' ';'  (46)
+	ListaExpresion : ListaExpresion . ',' expresion  (52)
+
+	')'  shift 136
+	','  shift 130
+	.  error
+
+
+state 111
+	sentencia : WRITE '(' ListaExpresion . ')' ';'  (40)
+	ListaExpresion : ListaExpresion . ',' expresion  (52)
+
+	')'  shift 137
+	','  shift 130
+	.  error
+
+
+state 112
+	expresion : '(' tipo ')' . expresion  (72)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	.  error
+
+	expresion  goto 138
+
+
+state 113
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion LOWERTHAN expresion .  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
 	LOWERTHAN  reduce 60
 	GREATERTHAN  reduce 60
 	GREATEREQUALS  reduce 60
@@ -1713,37 +1524,157 @@ state 119
 	'='  reduce 60
 
 
-state 120
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion AND expresion .  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 114
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion GREATERTHAN expresion .  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 59
+	GREATERTHAN  reduce 59
+	GREATEREQUALS  reduce 59
+	LOWEREQUALS  reduce 59
+	EQUALS  reduce 59
+	NOTEQUALS  reduce 59
+	AND  reduce 59
+	OR  reduce 59
+	']'  reduce 59
+	')'  reduce 59
+	';'  reduce 59
+	','  reduce 59
+	'='  reduce 59
+
+
+state 115
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion GREATEREQUALS expresion .  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 66
+	GREATERTHAN  reduce 66
+	GREATEREQUALS  reduce 66
+	LOWEREQUALS  reduce 66
+	EQUALS  reduce 66
+	NOTEQUALS  reduce 66
+	AND  reduce 66
+	OR  reduce 66
+	']'  reduce 66
+	')'  reduce 66
+	';'  reduce 66
+	','  reduce 66
+	'='  reduce 66
+
+
+state 116
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion LOWEREQUALS expresion .  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 67
+	GREATERTHAN  reduce 67
+	GREATEREQUALS  reduce 67
+	LOWEREQUALS  reduce 67
+	EQUALS  reduce 67
+	NOTEQUALS  reduce 67
+	AND  reduce 67
+	OR  reduce 67
+	']'  reduce 67
+	')'  reduce 67
+	';'  reduce 67
+	','  reduce 67
+	'='  reduce 67
+
+
+state 117
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion EQUALS expresion .  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 61
+	GREATERTHAN  reduce 61
+	GREATEREQUALS  reduce 61
+	LOWEREQUALS  reduce 61
+	EQUALS  reduce 61
+	NOTEQUALS  reduce 61
 	AND  reduce 61
 	OR  reduce 61
 	']'  reduce 61
@@ -1753,37 +1684,37 @@ state 120
 	'='  reduce 61
 
 
-state 121
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion OR expresion .  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 118
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion NOTEQUALS expresion .  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 62
+	GREATERTHAN  reduce 62
+	GREATEREQUALS  reduce 62
+	LOWEREQUALS  reduce 62
+	EQUALS  reduce 62
+	NOTEQUALS  reduce 62
 	AND  reduce 62
 	OR  reduce 62
 	']'  reduce 62
@@ -1793,106 +1724,109 @@ state 121
 	'='  reduce 62
 
 
-state 122
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion '+' expresion .  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 119
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion AND expresion .  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	LOWERTHAN  reduce 52
-	GREATERTHAN  reduce 52
-	GREATEREQUALS  reduce 52
-	LOWEREQUALS  reduce 52
-	EQUALS  reduce 52
-	NOTEQUALS  reduce 52
-	AND  reduce 52
-	OR  reduce 52
-	'+'  reduce 52
-	'-'  reduce 52
-	']'  reduce 52
-	')'  reduce 52
-	';'  reduce 52
-	','  reduce 52
-	'='  reduce 52
-
-
-state 123
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion '-' expresion .  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	LOWERTHAN  reduce 53
-	GREATERTHAN  reduce 53
-	GREATEREQUALS  reduce 53
-	LOWEREQUALS  reduce 53
-	EQUALS  reduce 53
-	NOTEQUALS  reduce 53
-	AND  reduce 53
-	OR  reduce 53
-	'+'  reduce 53
-	'-'  reduce 53
-	']'  reduce 53
-	')'  reduce 53
-	';'  reduce 53
-	','  reduce 53
-	'='  reduce 53
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	AND  reduce 63
+	OR  reduce 63
+	']'  reduce 63
+	')'  reduce 63
+	';'  reduce 63
+	','  reduce 63
+	'='  reduce 63
 
 
-state 124
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion '*' expresion .  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 120
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion OR expresion .  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	'['  shift 100
-	'.'  shift 101
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	AND  reduce 64
+	OR  reduce 64
+	']'  reduce 64
+	')'  reduce 64
+	';'  reduce 64
+	','  reduce 64
+	'='  reduce 64
+
+
+state 121
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion '+' expresion .  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
 	LOWERTHAN  reduce 54
 	GREATERTHAN  reduce 54
 	GREATEREQUALS  reduce 54
@@ -1903,9 +1837,6 @@ state 124
 	OR  reduce 54
 	'+'  reduce 54
 	'-'  reduce 54
-	'*'  reduce 54
-	'/'  reduce 54
-	'%'  reduce 54
 	']'  reduce 54
 	')'  reduce 54
 	';'  reduce 54
@@ -1913,26 +1844,29 @@ state 124
 	'='  reduce 54
 
 
-state 125
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion '/' expresion .  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 122
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion '-' expresion .  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	'['  shift 100
-	'.'  shift 101
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
 	LOWERTHAN  reduce 55
 	GREATERTHAN  reduce 55
 	GREATEREQUALS  reduce 55
@@ -1943,9 +1877,6 @@ state 125
 	OR  reduce 55
 	'+'  reduce 55
 	'-'  reduce 55
-	'*'  reduce 55
-	'/'  reduce 55
-	'%'  reduce 55
 	']'  reduce 55
 	')'  reduce 55
 	';'  reduce 55
@@ -1953,26 +1884,26 @@ state 125
 	'='  reduce 55
 
 
-state 126
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion '%' expresion .  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 123
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion '*' expresion .  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	'['  shift 100
-	'.'  shift 101
+	'['  shift 99
+	'.'  shift 100
 	LOWERTHAN  reduce 56
 	GREATERTHAN  reduce 56
 	GREATEREQUALS  reduce 56
@@ -1993,481 +1924,545 @@ state 126
 	'='  reduce 56
 
 
-state 127
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion '[' expresion . ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+state 124
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion '/' expresion .  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	']'  shift 141
-	'.'  shift 101
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 57
+	GREATERTHAN  reduce 57
+	GREATEREQUALS  reduce 57
+	LOWEREQUALS  reduce 57
+	EQUALS  reduce 57
+	NOTEQUALS  reduce 57
+	AND  reduce 57
+	OR  reduce 57
+	'+'  reduce 57
+	'-'  reduce 57
+	'*'  reduce 57
+	'/'  reduce 57
+	'%'  reduce 57
+	']'  reduce 57
+	')'  reduce 57
+	';'  reduce 57
+	','  reduce 57
+	'='  reduce 57
+
+
+state 125
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion '%' expresion .  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	'['  shift 99
+	'.'  shift 100
+	LOWERTHAN  reduce 58
+	GREATERTHAN  reduce 58
+	GREATEREQUALS  reduce 58
+	LOWEREQUALS  reduce 58
+	EQUALS  reduce 58
+	NOTEQUALS  reduce 58
+	AND  reduce 58
+	OR  reduce 58
+	'+'  reduce 58
+	'-'  reduce 58
+	'*'  reduce 58
+	'/'  reduce 58
+	'%'  reduce 58
+	']'  reduce 58
+	')'  reduce 58
+	';'  reduce 58
+	','  reduce 58
+	'='  reduce 58
+
+
+state 126
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion '[' expresion . ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	']'  shift 139
+	'.'  shift 100
 	.  error
+
+
+state 127
+	expresion : expresion '.' IDENT .  (71)
+
+	.  reduce 71
 
 
 state 128
-	expresion : expresion '.' IDENT .  (69)
+	asignacion : expresion '=' expresion . ';'  (45)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
 
-	.  reduce 69
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	';'  shift 140
+	.  error
 
 
 state 129
-	asignacion : expresion '=' expresion . ';'  (43)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
+	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo . cuerpofuncion ENDFUNCTION  (15)
+	defvariablesLocales : .  (32)
 
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	';'  shift 142
-	.  error
+	.  reduce 32
+
+	cuerpofuncion  goto 141
+	defvariablesLocales  goto 142
 
 
 state 130
-	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion . ENDFUNCTION  (13)
+	ListaExpresion : ListaExpresion ',' . expresion  (52)
 
-	ENDFUNCTION  shift 143
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 75
+	NOT  shift 54
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
 	.  error
+
+	expresion  goto 143
 
 
 state 131
-	cuerpofuncion : defvariablesLocales . sentenciasOpcionales  (28)
-	defvariablesLocales : defvariablesLocales . defvariables  (29)
-	sentenciasOpcionales : .  (32)
+	sentencia : IDENT '(' listaExpresionOpcional ')' . ';'  (42)
+	expresion : IDENT '(' listaExpresionOpcional ')' .  (68)
 
-	INTEGER  shift 9
-	REAL  shift 10
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	CHARACTER  shift 11
-	NOT  shift 57
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	STRUCT  shift 12
-	VOID  shift 13
-	'-'  shift 64
-	'('  shift 65
-	ENDFUNCTION  reduce 32
-
-	listaSentencias  goto 144
-	defvariables  goto 145
-	tipo  goto 17
-	sentenciasOpcionales  goto 146
-	sentencia  goto 67
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
+	';'  shift 144
+	LOWERTHAN  reduce 68
+	GREATERTHAN  reduce 68
+	GREATEREQUALS  reduce 68
+	LOWEREQUALS  reduce 68
+	EQUALS  reduce 68
+	NOTEQUALS  reduce 68
+	AND  reduce 68
+	OR  reduce 68
+	'+'  reduce 68
+	'-'  reduce 68
+	'*'  reduce 68
+	'/'  reduce 68
+	'%'  reduce 68
+	'['  reduce 68
+	'.'  reduce 68
+	'='  reduce 68
 
 
 state 132
-	ListaExpresion : ListaExpresion ',' . expresion  (50)
+	expresion : IDENT '(' listaExpresionOpcional . ')'  (68)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 76
-	NOT  shift 57
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
+	')'  shift 145
 	.  error
-
-	expresion  goto 147
 
 
 state 133
-	sentencia : IDENT '(' listaExpresionOpcional ')' . ';'  (40)
-	expresion : IDENT '(' listaExpresionOpcional ')' .  (66)
+	bucle : WHILE '(' expresion ')' . sentenciasOpcionales ENDWHILE  (47)
+	sentenciasOpcionales : .  (34)
 
-	';'  shift 148
-	LOWERTHAN  reduce 66
-	GREATERTHAN  reduce 66
-	GREATEREQUALS  reduce 66
-	LOWEREQUALS  reduce 66
-	EQUALS  reduce 66
-	NOTEQUALS  reduce 66
-	AND  reduce 66
-	OR  reduce 66
-	'+'  reduce 66
-	'-'  reduce 66
-	'*'  reduce 66
-	'/'  reduce 66
-	'%'  reduce 66
-	'['  reduce 66
-	'.'  reduce 66
-	'='  reduce 66
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 53
+	NOT  shift 54
+	WHILE  shift 55
+	IF  shift 56
+	RETURN  shift 57
+	READ  shift 58
+	WRITE  shift 59
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	ENDWHILE  reduce 34
+
+	sentenciasOpcionales  goto 146
+	listaSentencias  goto 64
+	sentencia  goto 65
+	condicional  goto 66
+	bucle  goto 67
+	print  goto 68
+	asignacion  goto 69
+	retorno  goto 70
+	expresion  goto 71
 
 
 state 134
-	expresion : IDENT '(' listaExpresionOpcional . ')'  (66)
+	condicional : IF '(' expresion ')' . THEN sentenciasOpcionales ENDIF  (48)
+	condicional : IF '(' expresion ')' . THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (49)
 
-	')'  shift 149
+	THEN  shift 147
 	.  error
 
 
 state 135
-	bucle : WHILE '(' expresion ')' . sentenciasOpcionales ENDWHILE  (45)
-	sentenciasOpcionales : .  (32)
+	retorno : RETURN '(' expresion ')' . ';'  (44)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	NOT  shift 57
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	ENDWHILE  reduce 32
-
-	listaSentencias  goto 144
-	sentenciasOpcionales  goto 150
-	sentencia  goto 67
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
+	';'  shift 148
+	.  error
 
 
 state 136
-	condicional : IF '(' expresion ')' . THEN sentenciasOpcionales ENDIF  (46)
-	condicional : IF '(' expresion ')' . THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (47)
+	print : READ '(' ListaExpresion ')' . ';'  (46)
 
-	THEN  shift 151
+	';'  shift 149
 	.  error
 
 
 state 137
-	retorno : RETURN '(' expresion ')' . ';'  (42)
+	sentencia : WRITE '(' ListaExpresion ')' . ';'  (40)
 
-	';'  shift 152
+	';'  shift 150
 	.  error
 
 
 state 138
-	print : READ '(' ListaExpresion ')' . ';'  (44)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+	expresion : '(' tipo ')' expresion .  (72)
 
-	';'  shift 153
-	.  error
+	.  reduce 72
 
 
 state 139
-	sentencia : WRITE '(' ListaExpresion ')' . ';'  (38)
-
-	';'  shift 154
-	.  error
-
-
-state 140
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-	expresion : '(' tipo ')' expresion .  (70)
+	expresion : expresion '[' expresion ']' .  (70)
 
 	.  reduce 70
 
 
-state 141
-	expresion : expresion '[' expresion ']' .  (68)
-
-	.  reduce 68
-
-
-state 142
-	asignacion : expresion '=' expresion ';' .  (43)
-
-	.  reduce 43
-
-
-state 143
-	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION .  (13)
-
-	.  reduce 13
-
-
-state 144
-	sentenciasOpcionales : listaSentencias .  (31)
-	listaSentencias : listaSentencias . sentencia  (33)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	NOT  shift 57
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	ENDFUNCTION  reduce 31
-	ENDWHILE  reduce 31
-	ELSE  reduce 31
-	ENDIF  reduce 31
-
-	sentencia  goto 86
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
-
-
-state 145
-	defvariablesLocales : defvariablesLocales defvariables .  (29)
-
-	.  reduce 29
-
-
-state 146
-	cuerpofuncion : defvariablesLocales sentenciasOpcionales .  (28)
-
-	.  reduce 28
-
-
-state 147
-	ListaExpresion : ListaExpresion ',' expresion .  (50)
-	expresion : expresion . '+' expresion  (52)
-	expresion : expresion . '-' expresion  (53)
-	expresion : expresion . '*' expresion  (54)
-	expresion : expresion . '/' expresion  (55)
-	expresion : expresion . '%' expresion  (56)
-	expresion : expresion . GREATERTHAN expresion  (57)
-	expresion : expresion . LOWERTHAN expresion  (58)
-	expresion : expresion . EQUALS expresion  (59)
-	expresion : expresion . NOTEQUALS expresion  (60)
-	expresion : expresion . AND expresion  (61)
-	expresion : expresion . OR expresion  (62)
-	expresion : expresion . GREATEREQUALS expresion  (64)
-	expresion : expresion . LOWEREQUALS expresion  (65)
-	expresion : expresion . '[' expresion ']'  (68)
-	expresion : expresion . '.' IDENT  (69)
-
-	LOWERTHAN  shift 87
-	GREATERTHAN  shift 88
-	GREATEREQUALS  shift 89
-	LOWEREQUALS  shift 90
-	EQUALS  shift 91
-	NOTEQUALS  shift 92
-	AND  shift 93
-	OR  shift 94
-	'+'  shift 95
-	'-'  shift 96
-	'*'  shift 97
-	'/'  shift 98
-	'%'  shift 99
-	'['  shift 100
-	'.'  shift 101
-	')'  reduce 50
-	','  reduce 50
-
-
-state 148
-	sentencia : IDENT '(' listaExpresionOpcional ')' ';' .  (40)
-
-	.  reduce 40
-
-
-state 149
-	expresion : IDENT '(' listaExpresionOpcional ')' .  (66)
-
-	.  reduce 66
-
-
-state 150
-	bucle : WHILE '(' expresion ')' sentenciasOpcionales . ENDWHILE  (45)
-
-	ENDWHILE  shift 155
-	.  error
-
-
-state 151
-	condicional : IF '(' expresion ')' THEN . sentenciasOpcionales ENDIF  (46)
-	condicional : IF '(' expresion ')' THEN . sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (47)
-	sentenciasOpcionales : .  (32)
-
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	NOT  shift 57
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	ELSE  reduce 32
-	ENDIF  reduce 32
-
-	listaSentencias  goto 144
-	sentenciasOpcionales  goto 156
-	sentencia  goto 67
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
-
-
-state 152
-	retorno : RETURN '(' expresion ')' ';' .  (42)
-
-	.  reduce 42
-
-
-state 153
-	print : READ '(' ListaExpresion ')' ';' .  (44)
-
-	.  reduce 44
-
-
-state 154
-	sentencia : WRITE '(' ListaExpresion ')' ';' .  (38)
-
-	.  reduce 38
-
-
-state 155
-	bucle : WHILE '(' expresion ')' sentenciasOpcionales ENDWHILE .  (45)
+state 140
+	asignacion : expresion '=' expresion ';' .  (45)
 
 	.  reduce 45
 
 
-state 156
-	condicional : IF '(' expresion ')' THEN sentenciasOpcionales . ENDIF  (46)
-	condicional : IF '(' expresion ')' THEN sentenciasOpcionales . ELSE sentenciasOpcionales ENDIF  (47)
+state 141
+	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion . ENDFUNCTION  (15)
 
-	ELSE  shift 157
-	ENDIF  shift 158
+	ENDFUNCTION  shift 151
 	.  error
 
 
-state 157
-	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ELSE . sentenciasOpcionales ENDIF  (47)
-	sentenciasOpcionales : .  (32)
+state 142
+	cuerpofuncion : defvariablesLocales . sentenciasOpcionales  (30)
+	defvariablesLocales : defvariablesLocales . defvariables  (31)
+	sentenciasOpcionales : .  (34)
 
-	LITERALREAL  shift 54
-	LITERALINT  shift 55
-	IDENT  shift 56
-	NOT  shift 57
-	WHILE  shift 58
-	IF  shift 59
-	RETURN  shift 60
-	READ  shift 61
-	WRITE  shift 62
-	CHAR  shift 63
-	'-'  shift 64
-	'('  shift 65
-	ENDIF  reduce 32
+	INTEGER  shift 7
+	REAL  shift 8
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 53
+	CHARACTER  shift 9
+	NOT  shift 54
+	WHILE  shift 55
+	IF  shift 56
+	RETURN  shift 57
+	READ  shift 58
+	WRITE  shift 59
+	CHAR  shift 60
+	STRUCT  shift 10
+	VOID  shift 11
+	'-'  shift 61
+	'('  shift 62
+	ENDFUNCTION  reduce 34
 
-	listaSentencias  goto 144
-	sentenciasOpcionales  goto 159
-	sentencia  goto 67
-	condicional  goto 68
-	bucle  goto 69
-	print  goto 70
-	asignacion  goto 71
-	retorno  goto 72
-	expresion  goto 73
+	sentenciasOpcionales  goto 152
+	defvariables  goto 153
+	tipo  goto 15
+	listaSentencias  goto 64
+	sentencia  goto 65
+	condicional  goto 66
+	bucle  goto 67
+	print  goto 68
+	asignacion  goto 69
+	retorno  goto 70
+	expresion  goto 71
 
 
-state 158
-	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ENDIF .  (46)
+state 143
+	ListaExpresion : ListaExpresion ',' expresion .  (52)
+	expresion : expresion . '+' expresion  (54)
+	expresion : expresion . '-' expresion  (55)
+	expresion : expresion . '*' expresion  (56)
+	expresion : expresion . '/' expresion  (57)
+	expresion : expresion . '%' expresion  (58)
+	expresion : expresion . GREATERTHAN expresion  (59)
+	expresion : expresion . LOWERTHAN expresion  (60)
+	expresion : expresion . EQUALS expresion  (61)
+	expresion : expresion . NOTEQUALS expresion  (62)
+	expresion : expresion . AND expresion  (63)
+	expresion : expresion . OR expresion  (64)
+	expresion : expresion . GREATEREQUALS expresion  (66)
+	expresion : expresion . LOWEREQUALS expresion  (67)
+	expresion : expresion . '[' expresion ']'  (70)
+	expresion : expresion . '.' IDENT  (71)
+
+	LOWERTHAN  shift 86
+	GREATERTHAN  shift 87
+	GREATEREQUALS  shift 88
+	LOWEREQUALS  shift 89
+	EQUALS  shift 90
+	NOTEQUALS  shift 91
+	AND  shift 92
+	OR  shift 93
+	'+'  shift 94
+	'-'  shift 95
+	'*'  shift 96
+	'/'  shift 97
+	'%'  shift 98
+	'['  shift 99
+	'.'  shift 100
+	')'  reduce 52
+	','  reduce 52
+
+
+state 144
+	sentencia : IDENT '(' listaExpresionOpcional ')' ';' .  (42)
+
+	.  reduce 42
+
+
+state 145
+	expresion : IDENT '(' listaExpresionOpcional ')' .  (68)
+
+	.  reduce 68
+
+
+state 146
+	bucle : WHILE '(' expresion ')' sentenciasOpcionales . ENDWHILE  (47)
+
+	ENDWHILE  shift 154
+	.  error
+
+
+state 147
+	condicional : IF '(' expresion ')' THEN . sentenciasOpcionales ENDIF  (48)
+	condicional : IF '(' expresion ')' THEN . sentenciasOpcionales ELSE sentenciasOpcionales ENDIF  (49)
+	sentenciasOpcionales : .  (34)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 53
+	NOT  shift 54
+	WHILE  shift 55
+	IF  shift 56
+	RETURN  shift 57
+	READ  shift 58
+	WRITE  shift 59
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	ELSE  reduce 34
+	ENDIF  reduce 34
+
+	sentenciasOpcionales  goto 155
+	listaSentencias  goto 64
+	sentencia  goto 65
+	condicional  goto 66
+	bucle  goto 67
+	print  goto 68
+	asignacion  goto 69
+	retorno  goto 70
+	expresion  goto 71
+
+
+state 148
+	retorno : RETURN '(' expresion ')' ';' .  (44)
+
+	.  reduce 44
+
+
+state 149
+	print : READ '(' ListaExpresion ')' ';' .  (46)
 
 	.  reduce 46
 
 
-state 159
-	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales . ENDIF  (47)
+state 150
+	sentencia : WRITE '(' ListaExpresion ')' ';' .  (40)
 
-	ENDIF  shift 160
-	.  error
+	.  reduce 40
 
 
-state 160
-	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF .  (47)
+state 151
+	decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION .  (15)
+
+	.  reduce 15
+
+
+state 152
+	cuerpofuncion : defvariablesLocales sentenciasOpcionales .  (30)
+
+	.  reduce 30
+
+
+state 153
+	defvariablesLocales : defvariablesLocales defvariables .  (31)
+
+	.  reduce 31
+
+
+state 154
+	bucle : WHILE '(' expresion ')' sentenciasOpcionales ENDWHILE .  (47)
 
 	.  reduce 47
 
 
-56 terminals, 28 nonterminals
-75 grammar rules, 161 states
+state 155
+	condicional : IF '(' expresion ')' THEN sentenciasOpcionales . ENDIF  (48)
+	condicional : IF '(' expresion ')' THEN sentenciasOpcionales . ELSE sentenciasOpcionales ENDIF  (49)
+
+	ELSE  shift 156
+	ENDIF  shift 157
+	.  error
+
+
+state 156
+	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ELSE . sentenciasOpcionales ENDIF  (49)
+	sentenciasOpcionales : .  (34)
+
+	LITERALREAL  shift 51
+	LITERALINT  shift 52
+	IDENT  shift 53
+	NOT  shift 54
+	WHILE  shift 55
+	IF  shift 56
+	RETURN  shift 57
+	READ  shift 58
+	WRITE  shift 59
+	CHAR  shift 60
+	'-'  shift 61
+	'('  shift 62
+	ENDIF  reduce 34
+
+	sentenciasOpcionales  goto 158
+	listaSentencias  goto 64
+	sentencia  goto 65
+	condicional  goto 66
+	bucle  goto 67
+	print  goto 68
+	asignacion  goto 69
+	retorno  goto 70
+	expresion  goto 71
+
+
+state 157
+	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ENDIF .  (48)
+
+	.  reduce 48
+
+
+state 158
+	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales . ENDIF  (49)
+
+	ENDIF  shift 159
+	.  error
+
+
+state 159
+	condicional : IF '(' expresion ')' THEN sentenciasOpcionales ELSE sentenciasOpcionales ENDIF .  (49)
+
+	.  reduce 49
+
+
+State 4 contains 5 shift/reduce conflicts.
+State 12 contains 6 shift/reduce conflicts.
+
+
+56 terminals, 29 nonterminals
+77 grammar rules, 160 states
