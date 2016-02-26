@@ -1,0 +1,76 @@
+types
+struct tipo1
+  integer edad;
+  real sueldo;
+endstruct
+
+struct datos
+  integer edad;
+  real sueldo;
+endstruct
+
+globals
+
+integer j, [10]k;
+character [2][3]c;
+real i;
+
+struct tipo1 [10]r1;
+integer [4] val;
+
+procedures
+
+function inicia (integer [3]vparam) as integer
+   integer [3]vlocal;
+   
+   k[1]=79;
+   vlocal[1]=79;
+   vparam[2]=80;
+   return(2);
+endfunction
+
+
+main ()
+
+  j=0;
+  j=inicia(val);
+  if (j gt 5)
+  then
+    write(1);
+  else
+    write(2);
+  endif
+  while (j lt 5)
+    write(j);
+    j=j+1;
+  endwhile
+  r1[0].edad=15;
+  write(5+4,h*y,j+3);
+  read(a,b);
+  if (a gt b) 
+  then
+    a=a+1;
+	b=b*2;
+    i=3.2E-10;
+    i=3.1416;
+    k[n+5+fib(2,3)]=5;
+    c[6][7].inicial='G';
+    a=5*4;
+    b=3-2;
+    f=4+3;
+    g=6/7;
+    h=5%2;
+    d=e;
+  else
+    z=z+1;
+    if (k lt 2)
+    then
+      write(6);
+    endif
+  endif
+  while (a eq 4)
+    while (i lt 10)
+      j=j+1;
+    endwhile
+  endwhile
+endmain
