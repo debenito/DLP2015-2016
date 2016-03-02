@@ -1,0 +1,68 @@
+<html>
+<head>
+<style type="text/css">
+body { font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; font-size: smaller; }
+table { border-collapse:collapse;  }
+td { vertical-align: top; }
+.cabecera { color: #FFFFFF; background-color: #8DB3E2; }
+
+.nodo { color: #000000; font-weight: bold; }
+.categoria { color: #000000; font-weight: bold; }
+.nombreAtt { color: #0000; font-style: italic; }
+.tipo { color: #808080; }
+</style>
+</head>
+
+<body>
+
+<h2>Code Specification</h2>
+<table border="0" cellspacing="0">
+<tr  class="cabecera"><td><strong>&nbsp;Función</strong></td><td><strong>Plantillas de Código</strong></td></tr>
+
+<tr><td>&fnof;<sub>1</sub>[[<span class="categoria">programa</span>]]&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&fnof;<sub>1</sub>[[<span class="nodo">programa</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">defSruct</span><span class="tipo">:definicion*</span> &nbsp;<span class="nombreAtt">defVariables</span><span class="tipo">:definicion*</span><br>&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;<span class="nombreAtt">defFunction</span><span class="tipo">:definicion*</span> &nbsp;<span class="nombreAtt">defMain</span><span class="tipo">:definicion*</span> &nbsp;<span class="nombreAtt">sentencias</span><span class="tipo">:sentencia*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td>&nbsp;<br><br></td><td></td></tr>
+
+<tr><td>&fnof;<sub>2</sub>[[<span class="categoria">definicion</span>]]&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&fnof;<sub>2</sub>[[<span class="nodo">defSruct</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">type</span><span class="tipo">:tipo</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>2</sub>[[<span class="nodo">defVariables</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">type</span><span class="tipo">:tipo</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>2</sub>[[<span class="nodo">defFunction</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">type</span><span class="tipo">:tipo</span><br>&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;<span class="nombreAtt">definiciones</span><span class="tipo">:definicion*</span> &nbsp;<span class="nombreAtt">sentencias</span><span class="tipo">:sentencia*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>2</sub>[[<span class="nodo">defMain</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">definiciones</span><span class="tipo">:definicion*</span> &nbsp;<span class="nombreAtt">sentencias</span><span class="tipo">:sentencia*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>2</sub>[[<span class="nodo">defCampo</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">type</span><span class="tipo">:tipo</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td>&nbsp;<br><br></td><td></td></tr>
+
+<tr><td>&fnof;<sub>3</sub>[[<span class="categoria">tipo</span>]]&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoInteger</span> &nbsp;&rarr; &lambda;&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoReal</span> &nbsp;&rarr; &lambda;&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoStruct</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">definiciones</span><span class="tipo">:definicion*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoCharacter</span> &nbsp;&rarr; &lambda;&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoVoid</span> &nbsp;&rarr; &lambda;&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoArray</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">tipoArray</span><span class="tipo">:tipo</span> &nbsp;<span class="nombreAtt">tam</span><span class="tipo">:int</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>3</sub>[[<span class="nodo">tipoFuncion</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">retorno</span><span class="tipo">:tipo</span> &nbsp;<span class="nombreAtt">definiciones</span><span class="tipo">:definicion*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td>&nbsp;<br><br></td><td></td></tr>
+
+<tr><td>&fnof;<sub>4</sub>[[<span class="categoria">sentencia</span>]]&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&fnof;<sub>4</sub>[[<span class="nodo">ifElse</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">condicion</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">ifsentencia</span><span class="tipo">:sentencia*</span> &nbsp;<span class="nombreAtt">elsesentencia</span><span class="tipo">:sentencia*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>4</sub>[[<span class="nodo">while</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">condicino</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">sentencias</span><span class="tipo">:sentencia*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>4</sub>[[<span class="nodo">write</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">expresiones</span><span class="tipo">:expresion*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>4</sub>[[<span class="nodo">read</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">expresiones</span><span class="tipo">:expresion*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>4</sub>[[<span class="nodo">asignacion</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">leftExpresion</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">rightExpresion</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>4</sub>[[<span class="nodo">return</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">expresion</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>4</sub>[[<span class="nodo">llamadaProcedimiento</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">expresion</span><span class="tipo">:expresion*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td>&nbsp;<br><br></td><td></td></tr>
+
+<tr><td>&fnof;<sub>5</sub>[[<span class="categoria">expresion</span>]]&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&fnof;<sub>5</sub>[[<span class="nodo">exprAritmetica</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">left</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">operador</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">right</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">variable</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">literalInt</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">valor</span><span class="tipo">:String</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">literalChar</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">valor</span><span class="tipo">:String</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">literalReal</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">valor</span><span class="tipo">:String</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">exprCondicional</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">left</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">opreador</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">right</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">llamadaFuncion</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">ident</span><span class="tipo">:String</span> &nbsp;<span class="nombreAtt">expresiones</span><span class="tipo">:expresion*</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">menosUnario</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">expr</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">not</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">expr</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">cast</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">type</span><span class="tipo">:tipo</span> &nbsp;<span class="nombreAtt">expr</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">accesoArray</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">identificador</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">expr</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td></td><td>&fnof;<sub>5</sub>[[<span class="nodo">accesoStruct</span> &nbsp;&rarr;  &nbsp;<span class="nombreAtt">leftExpresion</span><span class="tipo">:expresion</span> &nbsp;<span class="nombreAtt">expr</span><span class="tipo">:expresion</span>&nbsp;]]&nbsp;= <br>&nbsp;</td></tr>
+<tr><td>&nbsp;<br><br></td><td></td></tr>
+
+</table>
+</body>
+</html>

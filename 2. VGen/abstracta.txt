@@ -1,0 +1,41 @@
+CATEGORIES
+definicion ,expresion, sentencia, tipo
+
+NODES
+programa -> defSruct:definicion* defVariables:definicion* defFunction: definicion* defMain:definicion* sentencias:sentencia*;
+
+defSruct:definicion->ident:string type:tipo;
+defVariables:definicion->ident:string type:tipo ;
+defFunction: definicion ->ident:string type:tipo definiciones:definicion* sentencias:sentencia*; 
+defMain: definicion-> ident:string definiciones:definicion* sentencias:sentencia* ;
+defCampo : definicion-> ident:string type:tipo;
+
+tipoInteger:tipo ->  ;
+tipoReal:tipo -> ;
+tipoStruct:tipo->definiciones:definicion* ;
+tipoCharacter:tipo-> ;
+tipoVoid:tipo-> ;
+tipoArray:tipo->tipoArray:tipo tam:int;
+tipoFuncion: tipo-> retorno:tipo definiciones:definicion*;
+
+ifElse:sentencia->condicion:expresion ifsentencia:sentencia* elsesentencia:sentencia* ;
+while:sentencia->condicino:expresion sentencias:sentencia*;
+write:sentencia -> expresiones:expresion*;
+read:sentencia -> expresiones:expresion*;
+asignacion:sentencia -> leftExpresion:expresion rightExpresion:expresion;
+return:sentencia -> expresion;
+llamadaProcedimiento: sentencia-> ident:string expresion:expresion*;
+
+
+exprAritmetica:expresion -> left:expresion operador:string right:expresion;
+variable:expresion -> ident:string;
+literalInt:expresion -> valor:string;
+literalChar: expresion-> valor:string;
+literalReal: expresion-> valor:string;
+exprCondicional: expresion-> left:expresion opreador:string right:expresion;
+llamadaFuncion:expresion->ident:string expresiones:expresion*;
+menosUnario: expresion-> expr:expresion ;
+not:expresion -> expr:expresion ;
+cast:expresion->type:tipo expr:expresion ;
+accesoArray:expresion-> identificador:expresion expr:expresion ;
+accesoStruct:expresion->leftExpresion: expresion expr:expresion;
