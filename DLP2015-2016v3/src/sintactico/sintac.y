@@ -57,12 +57,12 @@ import main.*;
 /* Precedencias
 
 /* Precedencias aquí --------------------------------------- */
-%left  OR AND NOT
+%left  OR AND 
 %left  LOWERTHAN  GREATERTHAN LOWEREQUALS GREATEREQUALS EQUALS NOTEQUALS 
 %left '+' '-'
 %left '*' '/' '%'
 %left  '['  ']' 
-%left '!'
+%right NOT UNARIO 
 %left  '.'
 %left '(' ')'
 %nonassoc IFSINELSE
@@ -71,14 +71,14 @@ import main.*;
 
 /* Añadir las reglas en esta sección ----------------------- */
 
-program: TYPES dectypes  GLOBALS decvariables PROCEDURES decfunciones MAIN '('')' listaSentencias ENDMAIN
+program: TYPES dectypes  GLOBALS decvariables PROCEDURES decfunciones MAIN '('')' sentenciasOpcionales ENDMAIN
 			; 
 /* Declaracion de type */
 
 dectypes : dectypes decstruct  
-		|decstruct		
+		|	
 		;
-			
+		
 /*Declaracion de structuras */
 
  decstruct : STRUCT IDENT defvarstructs ENDSTRUCT  {}
@@ -97,9 +97,9 @@ dectypes : dectypes decstruct
  				
  /*Declaracion Variables Globales */				
  decvariables : decvariables  defvariables 
- 				| defvariables
+ 				| 
  				;
- 				
+			
  				
  defvariables:  tipo identifierList ';'  ;      
 
@@ -107,7 +107,7 @@ dectypes : dectypes decstruct
 /*Declaracion de funciones en Procedures */
 
 decfunciones: decfunciones decfuncion
-			| decfuncion 
+			| 
 			;
 			
 decfuncion : FUNCTION IDENT '(' parametosfunc ')' AS tipo cuerpofuncion ENDFUNCTION
@@ -162,13 +162,13 @@ sentenciasOpcionales : listaSentencias
 listaSentencias :listaSentencias sentencia
 				| sentencia
 				;				
-
+/* Aqui esta la llamada a un Procedimiento entre las sentencias*/
 sentencia : condicional
 		| bucle
 		| print
 		| WRITE '(' ListaExpresion ')' ';'
 		| asignacion 
-		| IDENT '(' listaExpresionOpcional ')'
+		| IDENT '(' listaExpresionOpcional ')' ';'
 		| retorno 
 		;
 retorno : RETURN '(' expresion ')' ';'
@@ -194,6 +194,7 @@ listaExpresionOpcional : ListaExpresion
 ListaExpresion: ListaExpresion ',' expresion
 				| expresion 	
 				;
+/* Entre las expresiones estan las llamas a funciones, acceso a arrays, .. */				
 expresion : expresion '+' expresion
 			| expresion '-' expresion
 			| expresion '*' expresion
@@ -205,12 +206,14 @@ expresion : expresion '+' expresion
 			| expresion NOTEQUALS expresion
 			|expresion AND expresion
 			|expresion OR expresion
+			| '-' expresion 					%prec UNARIO
 			| expresion GREATEREQUALS expresion
 			|expresion LOWEREQUALS expresion
 			|IDENT '('listaExpresionOpcional ')'
 			| NOT expresion
 			| expresion '[' expresion ']'
 			| expresion '.' IDENT
+			|'('tipo')' expresion
 			| LITERALREAL
 			| LITERALINT
 			| CHAR
